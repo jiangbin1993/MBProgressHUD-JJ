@@ -19,7 +19,7 @@
 
 - (NSArray *)titleArr{
     if (!_titleArr) {
-        _titleArr = @[@"报错",@"提示信息",@"成功",@"加载中"];
+        _titleArr = @[@"提示信息",@"报错",@"成功",@"加载中"];
     }
     return _titleArr;
 }
@@ -52,12 +52,12 @@
     switch (indexPath.row) {
         case 0:
         {
-            [MBProgressHUD showError:@"出错了啊！"];
+            [MBProgressHUD showMessage:@"提示信息：你被包围了！哈哈哈哈！！！"];
             break;
         }
             
         case 1:{
-            [MBProgressHUD showMessage:@"提示信息：你被包围了！哈哈哈哈！！！"];
+            [MBProgressHUD showError:@"出错了啊！"];
             break;
         }
         case 2:{

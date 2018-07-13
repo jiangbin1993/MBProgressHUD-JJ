@@ -20,6 +20,7 @@
 + (void)showError:(NSString *)error;
 + (MBProgressHUD *)showActivityMessage:(NSString*)message;
 
+
 #pragma mark 移除hud
 + (void)hideHUDForView:(UIView *)view;
 + (void)hideHUD;
