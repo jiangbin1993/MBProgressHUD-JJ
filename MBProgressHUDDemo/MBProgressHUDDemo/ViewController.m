@@ -19,7 +19,7 @@
 
 - (NSArray *)titleArr{
     if (!_titleArr) {
-        _titleArr = @[@"提示信息",@"报错",@"成功",@"加载中"];
+        _titleArr = @[@"提示信息",@"报错",@"成功",@"警告",@"自定义图片信息",@"加载中"];
     }
     return _titleArr;
 }
@@ -52,19 +52,27 @@
     switch (indexPath.row) {
         case 0:
         {
-            [MBProgressHUD showMessage:@"提示信息：你被包围了！哈哈哈哈！！！"];
+            [MBProgressHUD showMessage:@"提示信息：你被包围了!哈哈哈哈!!!"];
             break;
         }
             
         case 1:{
-            [MBProgressHUD showError:@"出错了啊！"];
+            [MBProgressHUD showError:@"出错了啊!"];
             break;
         }
         case 2:{
-            [MBProgressHUD showSuccess:@"成功了！"];
+            [MBProgressHUD showSuccess:@"成功了!"];
             break;
         }
         case 3:{
+            [MBProgressHUD showWarning:@"警告注意!"];
+            break;
+        }
+        case 4:{
+            [MBProgressHUD showMessageWithImageName:@"MBHUD_Info" message:@"哈哈哈！"];
+            break;
+        }
+        case 5:{
             MBProgressHUD *hud = [MBProgressHUD showActivityMessage:@"加载中..."];
             [hud hide:YES afterDelay:kHudShowTime];
             break;
