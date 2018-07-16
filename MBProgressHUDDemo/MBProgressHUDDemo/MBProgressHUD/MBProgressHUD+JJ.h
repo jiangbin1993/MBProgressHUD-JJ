@@ -1,4 +1,8 @@
 
+/**
+ github:https://github.com/jiangbin1993/MBProgressHUD-JJ.git
+ 作者：Jonas
+ **/
 
 #import "MBProgressHUD.h"
 
@@ -14,6 +18,7 @@
 + (void)showWarning:(NSString *)Warning toView:(UIView *)view;
 + (void)showMessageWithImageName:(NSString *)imageName message:(NSString *)message toView:(UIView *)view;
 + (MBProgressHUD *)showActivityMessage:(NSString*)message view:(UIView *)view;
++ (MBProgressHUD *)showProgressBarToView:(UIView *)view;
 
 
 #pragma mark 在window上显示hud

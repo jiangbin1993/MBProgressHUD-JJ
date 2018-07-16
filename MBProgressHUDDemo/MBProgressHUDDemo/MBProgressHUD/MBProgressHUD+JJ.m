@@ -68,7 +68,13 @@
     return hud;
 }
 
-
++ (MBProgressHUD *)showProgressBarToView:(UIView *)view{
+    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.mode = MBProgressHUDModeDeterminate;
+    hud.labelText = @"加载中...";
+    return hud;
+}
 
 
 
