@@ -14,6 +14,10 @@ github下载地址： https://github.com/jiangbin1993/MBProgressHUD-JJ.git
 
 ```
 
+/**
+ github:https://github.com/jiangbin1993/MBProgressHUD-JJ.git
+ 作者：Jonas
+ **/
 
 #import "MBProgressHUD.h"
 
@@ -26,14 +30,20 @@ github下载地址： https://github.com/jiangbin1993/MBProgressHUD-JJ.git
 + (void)showMessage:(NSString *)message toView:(UIView *)view;
 + (void)showSuccess:(NSString *)success toView:(UIView *)view;
 + (void)showError:(NSString *)error toView:(UIView *)view;
++ (void)showWarning:(NSString *)Warning toView:(UIView *)view;
++ (void)showMessageWithImageName:(NSString *)imageName message:(NSString *)message toView:(UIView *)view;
 + (MBProgressHUD *)showActivityMessage:(NSString*)message view:(UIView *)view;
++ (MBProgressHUD *)showProgressBarToView:(UIView *)view;
 
 
 #pragma mark 在window上显示hud
 + (void)showMessage:(NSString *)message;
 + (void)showSuccess:(NSString *)success;
 + (void)showError:(NSString *)error;
++ (void)showWarning:(NSString *)Warning;
++ (void)showMessageWithImageName:(NSString *)imageName message:(NSString *)message;
 + (MBProgressHUD *)showActivityMessage:(NSString*)message;
+
 
 #pragma mark 移除hud
 + (void)hideHUDForView:(UIView *)view;
@@ -56,9 +66,8 @@ github下载地址： https://github.com/jiangbin1993/MBProgressHUD-JJ.git
     [self show:message icon:nil view:view];
 }
 
-#pragma mark 显示带图片的信息
-+ (void)show:(NSString *)text icon:(NSString *)icon view:(UIView *)view
-{
+#pragma mark 显示带图片或者不带图片的信息
++ (void)show:(NSString *)text icon:(NSString *)icon view:(UIView *)view{
     if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
     // 快速显示一个提示信息
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
@@ -68,7 +77,9 @@ github下载地址： https://github.com/jiangbin1993/MBProgressHUD-JJ.git
         hud.mode = MBProgressHUDModeText;
     }else{
         // 设置图片
-        hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"MBProgressHUD.bundle/%@", icon]]];
+        UIImage *img = [UIImage imageNamed:[NSString stringWithFormat:@"MBProgressHUD.bundle/%@", icon]];
+        img = img == nil ? [UIImage imageNamed:icon] : img;
+        hud.customView = [[UIImageView alloc] initWithImage:img];
         // 再设置模式
         hud.mode = MBProgressHUDModeCustomView;
     }
@@ -78,15 +89,24 @@ github下载地址： https://github.com/jiangbin1993/MBProgressHUD-JJ.git
     [hud hide:YES afterDelay:kHudShowTime];
 }
 
+#pragma mark 显示成功信息
++ (void)showSuccess:(NSString *)success toView:(UIView *)view{
+    [self show:success icon:@"success.png" view:view];
+}
+
 #pragma mark 显示错误信息
 + (void)showError:(NSString *)error toView:(UIView *)view{
     [self show:error icon:@"error.png" view:view];
 }
 
-#pragma mark 显示成功信息
-+ (void)showSuccess:(NSString *)success toView:(UIView *)view
-{
-    [self show:success icon:@"success.png" view:view];
+#pragma mark 显示警告信息
++ (void)showWarning:(NSString *)Warning toView:(UIView *)view{
+    [self show:Warning icon:@"warn" view:view];
+}
+
+#pragma mark 显示自定义图片信息
++ (void)showMessageWithImageName:(NSString *)imageName message:(NSString *)message toView:(UIView *)view{
+    [self show:message icon:imageName view:view];
 }
 
 #pragma mark 加载中
@@ -106,6 +126,13 @@ github下载地址： https://github.com/jiangbin1993/MBProgressHUD-JJ.git
     return hud;
 }
 
++ (MBProgressHUD *)showProgressBarToView:(UIView *)view{
+    if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    hud.mode = MBProgressHUDModeDeterminate;
+    hud.labelText = @"加载中...";
+    return hud;
+}
 
 
 
@@ -113,14 +140,20 @@ github下载地址： https://github.com/jiangbin1993/MBProgressHUD-JJ.git
     [self showMessage:message toView:nil];
 }
 
-+ (void)showSuccess:(NSString *)success
-{
++ (void)showSuccess:(NSString *)success{
     [self showSuccess:success toView:nil];
 }
 
-+ (void)showError:(NSString *)error
-{
++ (void)showError:(NSString *)error{
     [self showError:error toView:nil];
+}
+
++ (void)showWarning:(NSString *)Warning{
+    [self showWarning:Warning toView:nil];
+}
+
++ (void)showMessageWithImageName:(NSString *)imageName message:(NSString *)message{
+    [self showMessageWithImageName:imageName message:message toView:nil];
 }
 
 + (MBProgressHUD *)showActivityMessage:(NSString*)message{
@@ -130,17 +163,16 @@ github下载地址： https://github.com/jiangbin1993/MBProgressHUD-JJ.git
 
 
 
-+ (void)hideHUDForView:(UIView *)view
-{
++ (void)hideHUDForView:(UIView *)view{
     if (view == nil) view = [[UIApplication sharedApplication].windows lastObject];
     [self hideHUDForView:view animated:YES];
 }
 
-+ (void)hideHUD
-{
++ (void)hideHUD{
     [self hideHUDForView:nil];
 }
 @end
+
 
 ```
 
@@ -182,6 +214,25 @@ github下载地址： https://github.com/jiangbin1993/MBProgressHUD-JJ.git
 
 ![提示成功gif](https://upload-images.jianshu.io/upload_images/2541004-7136b5be54128c11.gif?imageMogr2/auto-orient/strip)
 
+
+### 警告提示
+
+```
+[MBProgressHUD showWarning:@"警告注意!"];
+```
+
+![警告提示gif](https://upload-images.jianshu.io/upload_images/2541004-29a13c65a7b738af.gif?imageMogr2/auto-orient/strip)
+
+
+### 自定义图片文字提示
+
+```
+[MBProgressHUD showMessageWithImageName:@"MBHUD_Info" message:@"哈哈哈！"];
+```
+
+![自定义图片提示gif](https://upload-images.jianshu.io/upload_images/2541004-afcd89f24a30226f.gif?imageMogr2/auto-orient/strip)
+
+
 ## 三、加载中
 
 ```
@@ -191,16 +242,36 @@ github下载地址： https://github.com/jiangbin1993/MBProgressHUD-JJ.git
 
 ![加载中gif](https://upload-images.jianshu.io/upload_images/2541004-4258de4eef7ddb94.gif?imageMogr2/auto-orient/strip)
 
+
+
+
+## 四、进度条
+
+```
+// 模拟网络请求进度
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            
+                float progress = 0.0f;
+            
+                while (progress < 1.0f) {
+                    progress += 0.01f;
+                    // 主线程刷新进度
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        hud.progress = progress;
+                    });
+                    // 进程挂起50毫秒
+                    usleep(50000);
+                }
+                // 100%后移除
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [hud hide:YES];
+                });
+            });
+```
+
+![进度条gif](https://upload-images.jianshu.io/upload_images/2541004-7ecfdb21e34dc369.gif?imageMogr2/auto-orient/strip)
+
 使用详情查看demo
-
-
-
-
-
-
-
-
-
 
 
 
